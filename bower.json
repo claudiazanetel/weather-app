@@ -1,0 +1,8 @@
+{
+	"name": "screen-interaction",
+	"dependencies": {
+    	"bootstrap": "boostrap#^3.3.7",
+    	"weather-icons": "2.0.10",
+    	"angular": "v1.6.4"
+    }
+}
