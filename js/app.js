@@ -11,13 +11,14 @@ angular.module('weatherApp', ['ngResource'])
 
 	}])
 
-	.controller('MenuController', ['$scope', 'fetchWeatherData', function ($scope,fetchWeatherData ) {
+	.controller('weatherController', ['$scope', 'fetchWeatherData', function($scope, fetchWeatherData) {
 
 		$scope.city=''
 		$scope.chooseCity = function() {
 		
 			fetchWeatherData.getWeatherByCity().get({city:$scope.city})
 	    	.$promise.then(function(data) {
+	    		$scope.data = data;
 	      		console.log(data);
 	    	});
 
@@ -27,7 +28,7 @@ angular.module('weatherApp', ['ngResource'])
 		$scope.lon=''
 		$scope.chooseCoord = function() {
 
-		fetchWeatherData.getWeatherByCoord().get({lat:$scope.lat, lon:$scope.lon})
+			fetchWeatherData.getWeatherByCoord().get({lat:$scope.lat, lon:$scope.lon})
 	    	.$promise.then(function(data) {
 	      		console.log(data);
 	    	});
