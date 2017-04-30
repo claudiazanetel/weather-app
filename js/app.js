@@ -11,8 +11,17 @@ angular.module('weatherApp', ['ngResource'])
 
 	}])
 
+	.directive('dateNow', ['$filter', function($filter) {
+  		return {
+    		link: function( $scope, $element, $attrs) {
+      			$element.text($filter('date')(new Date(), $attrs.dateNow));
+    		}
+  		};
+	}])
+
 	.controller('weatherController', ['$scope', 'fetchWeatherData', function($scope, fetchWeatherData) {
 
+		$scope.currentWeatherData = false;
 		$scope.city=''
 		$scope.chooseCity = function() {
 		
@@ -21,7 +30,8 @@ angular.module('weatherApp', ['ngResource'])
 	    		$scope.data = data;
 	      		console.log(data);
 	    	});
-
+	    	$scope.currentWeatherData = true;
+	    	$scope.city = ''
 		};
 
 		$scope.lat=''

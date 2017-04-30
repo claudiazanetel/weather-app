@@ -1,0 +1,21 @@
+h1{
+	margin:0;
+}
+
+h3{
+	margin: 0;
+}
+
+
+
+
+.navbar-form{
+	text-align: center;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+#currentWeatherData{
+	text-align: center;
+}
+
