@@ -24,22 +24,36 @@
             </div>
             <hr>
             <div class="row" id="currentWeatherData">
-                <div class="col-12-xs" ng-show="currentWeatherData" ng-repeat="item in data.weather">
-                    <h1>{{data.name}}</h1>
+                <div class="col-12-xs" ng-show="currentWeatherData">
+                    <h1>{{currentData.name}}</h1>
                     <h3 date-now="HH:mm"></h3>
                     <br>
-                    <i class="wi wi-owm-{{item.id}}" style="font-size: 50px; color: blue;"></i><br>
-                    <h4>{{item.description}}</h4>
-                    <h2>{{data.main.temp}}°C</h2>    
+                    <i class="wi wi-owm-{{currentData.weather[0].id}}" style="font-size: 50px; color: blue;"></i><br>
+                    <h4>{{currentData.weather[0].description}}</h4>
+                    <h2>{{currentData.main.temp}}°C</h2>    
 
                     <!--<span date-now="EEEE dd, MMMM yyyy"></span>-->
-                    <!--<p>{{data.clouds.all}}</p>-->
+                    <!--<p>{{currentData.clouds.all}}</p>-->
                 </div>
             </div>
-            <hr>
-            <div class="row" id="nextDaysWeather">
-                <div class="col-12-xs">
+            <div class="row" id="nextDaysWeather" ng-show="currentWeatherData">
+                <div class="col-12-xs" ng-repeat="item in dailyData.list.slice(0, 5)" ng-click="changeDay(currentData.name, item.dt)">
+                <hr>
+                    <span>{{item.dt * 1000 | date:'EEE':'GMT' }},</span> 
+                    <i class="wi wi-owm-{{item.weather[0].id}}" style="font-size: 50px; color: blue;"></i>, 
+                    {{item.temp.max}}, 
+                    {{item.temp.min}}
 
+                </div>
+            </div>
+            <div class="row" id="nextHoursWeather">
+                <div class="col-12-xs">
+                <hr>
+                <ul>
+                    <li ng-repeat="item in getDaysDetails()" >
+                       {{item.dt*1000 | date:'EEE dd HH:mm':'GMT'}}, {{item.weather[0].id}}, {{item.main.temp}}
+                    </li>
+                </ul>
                 </div>
             </div>
         </div>
