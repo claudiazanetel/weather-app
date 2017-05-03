@@ -23,31 +23,28 @@ angular.module('weatherApp', ['ngResource'])
 
 	}])
 
-	.directive('dateNow', ['$filter', function($filter) {
-  		return {
-    		link: function( $scope, $element, $attrs) {
-      			$element.text($filter('date')(new Date(), $attrs.dateNow));
-    		}
-  		};
-	}])
-
 	.controller('weatherController', ['$scope', 'fetchWeatherData', function($scope, fetchWeatherData) {
 
 		$scope.currentWeatherData = false;
 		$scope.detailedWeatherData = [];
-		$scope.city=''
+		$scope.city = '';
+		$scope.isLoading = false;
 
 		$scope.chooseCity = function() {
 		
+			$scope.isLoading = true;
+			$scope.currentWeatherData = false;
 			fetchWeatherData.getWeatherByCity().get({city:$scope.city})
 	    	.$promise.then(function(currentData) {
 	    		$scope.currentData = currentData;
 	      		console.log(currentData);
+	      		$scope.isLoading = false;
+	      		$scope.currentWeatherData = true;
 	    	});
 
 	    	getData($scope.city);
 
-	    	$scope.currentWeatherData = true;
+	    	
 	    	$scope.city = ''
 		};
 
@@ -56,14 +53,15 @@ angular.module('weatherApp', ['ngResource'])
 			$scope.lon = location.coords.longitude
 			console.log($scope.lat);
 			console.log($scope.lon);
+			$scope.isLoading = true;
 
 			fetchWeatherData.getWeatherByCoord().get({lat:$scope.lat, lon:$scope.lon})
 	    		.$promise.then(function(currentData) {
 	    			$scope.currentData = currentData;
 	      			console.log(currentData);
 	      			getData($scope.currentData.name);
-	      			$scope.currentWeatherData = true;	
-
+	      			$scope.currentWeatherData = true;
+	      			$scope.isLoading = false;
 	    	});
 		});
 
@@ -74,6 +72,7 @@ angular.module('weatherApp', ['ngResource'])
 	      		console.log(dailyData);
 	      		console.log(dailyData.list[0].dt);
 	      		$scope.changeDay(dailyData.city.name, dailyData.list[0].dt);
+	      		$scope.selectedDay = dailyData.list[0].dt;
 	    	});
 
 	    	fetchWeatherData.getDetailedWeatherByCity().get({city:city})
@@ -82,30 +81,27 @@ angular.module('weatherApp', ['ngResource'])
 	      		console.log(hourlyData);
 	      		$scope.detailedWeatherData = hourlyData.list;
 	    	});
+
 		};
 
-
-		//$scope.chooseCoord = function() {
-
-
-
-	    //};	
-
-
-
 	    $scope.changeDay = function(city, day){
-	    	$scope.selectedDay = day - 36000;
+	    	$scope.selectedDay = day;
 	    	fetchWeatherData.getDetailedWeatherByCity().get({city:city})
 	    	.$promise.then(function(hours) {
 	    		$scope.hours = hours;
 	      		console.log(hours);
 	    	});
-	    	$scope.prova='prova'
 	    };
 
 	    $scope.getDaysDetails = function(){
+	    	var dateFrom = new Date($scope.selectedDay*1000);
+	    	var dateTo = new Date($scope.selectedDay*1000);
+	    	dateFrom.setHours(0,0,0,0);
+	    	dateTo.setHours(23,59,59,999);
+	    	var from = dateFrom.getTime()/1000;
+	    	var to = dateTo.getTime()/1000;
 	    	return $scope.detailedWeatherData.filter(function(element){
-	    		return element.dt >= $scope.selectedDay && element.dt < $scope.selectedDay + 24*3600-1;
+	    		return element.dt >= from && element.dt < to;
 	    	});
 
 	    };

@@ -1,13 +1,15 @@
-h1{
-	margin:0;
-}
 
-h3{
-	margin: 0;
+
+h4{
+	margin-top: 15px;
 }
 
 span{
 	font-weight: bold;
+}
+
+.cloudy{
+	background-image: url(../images/rain.jpg);
 }
 
 
@@ -17,28 +19,49 @@ span{
 	margin-right: 5%;
 }
 
+
 #currentWeatherData{
 	text-align: center;
 }
 
-#nextDaysWeather{
+.nextDaysWeather{
 	display:inline-block;
 	width: 20%;
 	text-align: center;
+	padding-bottom: 10px;
+	border-bottom: 3px #EEEEEE solid ;
+	opacity: 0.7;
 }
 
-#nextHoursWeather ul{
+.selectedDay{
+	border-bottom: 3px #A9A9A9 solid;
+	opacity: 1;
+}
+
+
+.detailHeader{
+	font-weight: bold;
+	width: 100%;
+	text-align: center;
+}
+
+.nextHoursWeather{
+	margin-top: 20px;
+}
+
+.nextHoursWeather ul{
 	padding:0;
 }
 
-#nextHoursWeather li{
+.nextHoursWeather li{
 	list-style-type: none;
 }
 
-#nextHoursWeather p{
+.nextHoursWeather p{
 	display:inline-block;
 	width:24%;
 	text-align: center;
 	margin-right: 0;
 }
+
 
