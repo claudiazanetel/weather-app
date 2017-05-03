@@ -12,11 +12,11 @@
         <div class="container" ng-controller="weatherController">
             <div class="row">
                 <div class="col-12-md">
-                    <form class="navbar-form" name="searchForm" role="search" ng-submit="chooseCity()" >
+                    <form class="navbar-form" name="searchForm" role="search" ng-submit="chooseCity()">
                         <div class="input-group add-on">
-                          <input class="form-control" name="searchCity" type="text" ng-model="city" placeholder="Choose your city">
+                          <input class="form-control" name="searchCity" type="text" ng-model="city" placeholder="Choose your city" required>
                           <div class="input-group-btn">
-                            <button class="btn btn-default" type="submit" id="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            <button class="btn btn-default" type="submit" id="submit"><i class="glyphicon glyphicon-search" ng-disabled="searchForm.$invalid"></i></button>
                           </div>
                         </div>
                     </form>
@@ -28,30 +28,41 @@
                     <h1>{{currentData.name}}</h1>
                     <h3 date-now="HH:mm"></h3>
                     <br>
-                    <i class="wi wi-owm-{{currentData.weather[0].id}}" style="font-size: 50px; color: blue;"></i><br>
+                    <i class="wi wi-owm-{{currentData.weather[0].id}}" style="font-size: 60px; color: blue;"></i><br>
                     <h4>{{currentData.weather[0].description}}</h4>
-                    <h2>{{currentData.main.temp}}°C</h2>    
+                    <h2>{{currentData.main.temp | number:0}}°C</h2>    
 
                     <!--<span date-now="EEEE dd, MMMM yyyy"></span>-->
                     <!--<p>{{currentData.clouds.all}}</p>-->
                 </div>
             </div>
-            <div class="row" id="nextDaysWeather" ng-show="currentWeatherData">
-                <div class="col-12-xs" ng-repeat="item in dailyData.list.slice(0, 5)" ng-click="changeDay(currentData.name, item.dt)">
+            <div class="row" ng-show="currentWeatherData">
+                <div class="col-12-xs" id="nextDaysWeather" ng-repeat="item in dailyData.list.slice(0, 5)" ng-click="changeDay(currentData.name, item.dt)">
                 <hr>
-                    <span>{{item.dt * 1000 | date:'EEE':'GMT' }},</span> 
-                    <i class="wi wi-owm-{{item.weather[0].id}}" style="font-size: 50px; color: blue;"></i>, 
-                    {{item.temp.max}}, 
-                    {{item.temp.min}}
+                    <span>{{item.dt * 1000 | date:'EEE':'GMT' }}</span><br><br> 
+                    <i class="wi wi-owm-{{item.weather[0].id}}" style="font-size: 50px; color: blue;"></i><br><br> 
+                    <span style="color: red;">{{item.temp.max | number:0}} C°</span><br> 
+                    <span style="color: blue;">{{item.temp.min | number:0}} C°</span>
 
                 </div>
             </div>
-            <div class="row" id="nextHoursWeather">
-                <div class="col-12-xs">
+            <div class="row" ng-show="currentWeatherData">
+                <div class="col-12-xs" id="nextHoursWeather">
                 <hr>
                 <ul>
+                    <li>
+                        <p>Time</p>
+                        <p>Weather</p>
+                        <p></p>
+                        <p>T C°</p>
+                        <hr>
+                    </li>
                     <li ng-repeat="item in getDaysDetails()" >
-                       {{item.dt*1000 | date:'EEE dd HH:mm':'GMT'}}, {{item.weather[0].id}}, {{item.main.temp}}
+                       <p>{{item.dt*1000 | date:'EEE HH:mm':'GMT'}}</p>
+                       <p><i class="wi wi-owm-{{item.weather[0].id}}" style="font-size: 30px; color: blue;"></i></p>
+                       <p></p>
+                       <p>{{item.main.temp | number:0}} C°</p>
+                       <hr>
                     </li>
                 </ul>
                 </div>

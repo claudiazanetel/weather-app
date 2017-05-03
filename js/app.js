@@ -3,17 +3,21 @@ angular.module('weatherApp', ['ngResource'])
 
         this.getWeatherByCity = function() {
         	return $resource('http://worksample-api.herokuapp.com/weather?q=:city&key=62fc4256-8f8c-11e5-8994-feff819cdc9f', {city:'@city'});
+    		//return $resource('http://api.openweathermap.org/data/2.5/weather?q=:city&appid=4b80da9843e489246022d72d79a1e508', {city:'@city'});
+
     	};
 
     	this.getSummaryWeatherByCity = function() {
     		return $resource('http://worksample-api.herokuapp.com/forecast/daily?q=:city&key=62fc4256-8f8c-11e5-8994-feff819cdc9f', {city:'@city'});
+    		//return $resource('http://api.openweathermap.org/data/2.5/forecast/daily?q=:city&appid=4b80da9843e489246022d72d79a1e508', {city:'@city'});
     	};
 
     	this.getDetailedWeatherByCity = function() {
     		return $resource('http://worksample-api.herokuapp.com/forecast?q=:city&key=62fc4256-8f8c-11e5-8994-feff819cdc9f', {city:'@city'});
+    		//return $resource('http://api.openweathermap.org/data/2.5/forecast?q=:city&appid=4b80da9843e489246022d72d79a1e508', {city:'@city'});
     	};
 
-    	this.getWeatherByCoord = function() {
+	   	this.getWeatherByCoord = function() {
     		return $resource('http://worksample-api.herokuapp.com/weather?lat=:lat&lon=:lon&key=62fc4256-8f8c-11e5-8994-feff819cdc9f', {lat:'@lat', lon:'@lon'});
     	};
 
@@ -32,6 +36,7 @@ angular.module('weatherApp', ['ngResource'])
 		$scope.currentWeatherData = false;
 		$scope.detailedWeatherData = [];
 		$scope.city=''
+
 		$scope.chooseCity = function() {
 		
 			fetchWeatherData.getWeatherByCity().get({city:$scope.city})
@@ -39,34 +44,54 @@ angular.module('weatherApp', ['ngResource'])
 	    		$scope.currentData = currentData;
 	      		console.log(currentData);
 	    	});
-	    	fetchWeatherData.getSummaryWeatherByCity().get({city:$scope.city})
-	    	.$promise.then(function(dailyData) {
-	    		$scope.dailyData = dailyData;
-	      		console.log(dailyData);
-	    	});
 
-	    	fetchWeatherData.getDetailedWeatherByCity().get({city:$scope.city})
-	    	.$promise.then(function(hourlyData) {
-	    		$scope.hourlyData = hourlyData;
-	      		console.log(hourlyData);
-	      		$scope.detailedWeatherData = hourlyData.list;
-	    	});
-
+	    	getData($scope.city);
 
 	    	$scope.currentWeatherData = true;
 	    	$scope.city = ''
 		};
 
-		$scope.lat=''
-		$scope.lon=''
-		$scope.chooseCoord = function() {
+		navigator.geolocation.getCurrentPosition(function(location) {
+			$scope.lat= location.coords.latitude
+			$scope.lon = location.coords.longitude
+			console.log($scope.lat);
+			console.log($scope.lon);
 
 			fetchWeatherData.getWeatherByCoord().get({lat:$scope.lat, lon:$scope.lon})
-	    	.$promise.then(function(data) {
-	      		console.log(data);
+	    		.$promise.then(function(currentData) {
+	    			$scope.currentData = currentData;
+	      			console.log(currentData);
+	      			getData($scope.currentData.name);
+	      			$scope.currentWeatherData = true;	
+
+	    	});
+		});
+
+		getData = function(city){
+			fetchWeatherData.getSummaryWeatherByCity().get({city:city})
+	    	.$promise.then(function(dailyData) {
+	    		$scope.dailyData = dailyData;
+	      		console.log(dailyData);
+	      		console.log(dailyData.list[0].dt);
+	      		$scope.changeDay(dailyData.city.name, dailyData.list[0].dt);
 	    	});
 
-	    };	
+	    	fetchWeatherData.getDetailedWeatherByCity().get({city:city})
+	    	.$promise.then(function(hourlyData) {
+	    		$scope.hourlyData = hourlyData;
+	      		console.log(hourlyData);
+	      		$scope.detailedWeatherData = hourlyData.list;
+	    	});
+		};
+
+
+		//$scope.chooseCoord = function() {
+
+
+
+	    //};	
+
+
 
 	    $scope.changeDay = function(city, day){
 	    	$scope.selectedDay = day - 36000;

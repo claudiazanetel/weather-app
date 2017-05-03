@@ -6,7 +6,9 @@ h3{
 	margin: 0;
 }
 
-
+span{
+	font-weight: bold;
+}
 
 
 .navbar-form{
@@ -17,5 +19,26 @@ h3{
 
 #currentWeatherData{
 	text-align: center;
+}
+
+#nextDaysWeather{
+	display:inline-block;
+	width: 20%;
+	text-align: center;
+}
+
+#nextHoursWeather ul{
+	padding:0;
+}
+
+#nextHoursWeather li{
+	list-style-type: none;
+}
+
+#nextHoursWeather p{
+	display:inline-block;
+	width:24%;
+	text-align: center;
+	margin-right: 0;
 }
 
