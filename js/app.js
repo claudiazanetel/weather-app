@@ -38,6 +38,8 @@ angular.module('weatherApp', ['ngResource'])
 			$scope.isError = false;
 			$scope.isLoading = true;
 			$scope.currentWeatherData = false;
+			$scope.isDailyDataLoaded = false;
+			$scope.isHourlyDataLoaded = false;
 			fetchWeatherData.getWeatherByCity().get({city:$scope.city})
 	    	.$promise.then(function(currentData) {
 	    		$scope.currentData = currentData;
