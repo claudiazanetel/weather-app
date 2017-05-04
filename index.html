@@ -10,7 +10,7 @@
     </head>
     <body>
         <div class="container" ng-controller="weatherController">
-            <div class="row">
+            <div class="row chooseCity">
                 <div class="col-12-xs">
                     <form class="navbar-form" name="searchForm" role="search" ng-submit="chooseCity()">
                         <div class="input-group add-on">
@@ -22,27 +22,26 @@
                     </form>
                 </div>
             </div>
-            <div ng-show="isLoading">
+            <div class="loading" ng-show="isLoading">
                 <img src="images/Loading_icon.gif"/>
             </div>
-            <div class="row" id="currentWeatherData">
+            <div class="alert alert-danger" role="alert" ng-show="isError">
+                <p>Error: {{currentData.message}}</p>
+            </div>
+            <div class="row currentWeatherData">
                 <div class="col-12-xs" ng-show="currentWeatherData">
                     <h2>{{currentData.name}}</h2>
                     <i class="wi wi-owm-{{currentData.weather[0].id}}" style="font-size: 60px;"></i><br>
                     <h4>{{currentData.weather[0].description}}</h4>
                     <h3>{{currentData.main.temp | number:0}}°C</h3>    
-
-                    <!--<span date-now="EEEE dd, MMMM yyyy"></span>-->
-                    <!--<p>{{currentData.clouds.all}}</p>-->
                 </div>
             </div>
-            <hr ng-show="currentWeatherData">
             <div class="row" ng-show="currentWeatherData">
                 <div class="col-12-xs nextDaysWeather" ng-repeat="item in dailyData.list.slice(0, 5)" ng-class="{selectedDay : selectedDay === item.dt}" ng-click="changeDay(currentData.name, item.dt)">
                     <span>{{item.dt * 1000 | date:'EEE':'GMT' }}</span><br><br> 
-                    <i class="wi wi-owm-{{item.weather[0].id}}" style="font-size: 50px;"></i><br><br> 
-                    <span style="color: red;">{{item.temp.max | number:0}} °C</span><br> 
-                    <span style="color: blue;">{{item.temp.min | number:0}} °C</span>
+                    <i class="wi wi-owm-{{item.weather[0].id}}" style="font-size: 40px;"></i><br><br> 
+                    <span style="color: #CC0000;">{{item.temp.max | number:0}} °C</span><br> 
+                    <span style="color: #003366;">{{item.temp.min | number:0}} °C</span>
 
                 </div>
             </div>
@@ -51,14 +50,12 @@
                 <ul>
                     <li class="detailHeader">
                         {{selectedDay * 1000 | date:'EEEE dd MMMM yyyy':'GMT'}}
-                        <hr>
                     </li>
-                    <li ng-repeat="item in getDaysDetails()" >
+                    <li class="details" ng-repeat="item in getDaysDetails()" >
                        <p>{{item.dt*1000 | date:'HH:mm':'GMT'}}</p>
                        <p><i class="wi wi-owm-{{item.weather[0].id}}" style="font-size: 30px;"></i></p>
                        <p>{{item.weather[0].description}}</p>
                        <p>{{item.main.temp | number:0}} °C</p>
-                       <hr>
                     </li>
                 </ul>
                 </div>
