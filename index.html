@@ -36,8 +36,8 @@
                     <h3>{{currentData.main.temp | number:0}}°C</h3>    
                 </div>
             </div>
-            <div class="row" ng-show="currentWeatherData">
-                <div class="col-12-xs nextDaysWeather" ng-repeat="item in dailyData.list.slice(0, 5)" ng-class="{selectedDay : selectedDay === item.dt}" ng-click="changeDay(currentData.name, item.dt)">
+            <div class="row" ng-show="isDailyDataLoaded">
+                <div class="col-12-xs nextDaysWeather" ng-repeat="item in dailyData.list.slice(0, 5)" ng-class="{selectedDay : selectedDay === item.dt}" ng-click="changeDay(item.dt)">
                     <span>{{item.dt * 1000 | date:'EEE':'GMT' }}</span><br><br> 
                     <i class="wi wi-owm-{{item.weather[0].id}}" style="font-size: 40px;"></i><br><br> 
                     <span style="color: #CC0000;">{{item.temp.max | number:0}} °C</span><br> 
@@ -45,7 +45,7 @@
 
                 </div>
             </div>
-            <div class="row" ng-show="currentWeatherData">
+            <div class="row" ng-show="isHourlyDataLoaded">
                 <div class="col-12-xs nextHoursWeather">
                 <ul>
                     <li class="detailHeader">

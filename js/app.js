@@ -27,6 +27,8 @@ angular.module('weatherApp', ['ngResource'])
 	.controller('weatherController', ['$scope', 'fetchWeatherData', function($scope, fetchWeatherData) {
 
 		$scope.currentWeatherData = false;
+		$scope.isDailyDataLoaded = false;
+		$scope.isHourlyDataLoaded = false;
 		$scope.detailedWeatherData = [];
 		$scope.city = '';
 		$scope.isLoading = false;
@@ -46,8 +48,7 @@ angular.module('weatherApp', ['ngResource'])
 		      		$scope.isLoading = false;
 		      		$scope.isError = false;
 		      		$scope.currentWeatherData = true;
-		      		$scope.isCity = false;
-		      		getData($scope.city);
+		      		getData($scope.currentData.name);
 				};
 	    	});
 	    						
@@ -55,8 +56,8 @@ angular.module('weatherApp', ['ngResource'])
 		};
 
 		navigator.geolocation.getCurrentPosition(function(location) {
-			$scope.lat= location.coords.latitude
-			$scope.lon = location.coords.longitude
+			$scope.lat= location.coords.latitude;
+			$scope.lon = location.coords.longitude;
 			$scope.isLoading = true;
 
 			fetchWeatherData.getWeatherByCoord().get({lat:$scope.lat, lon:$scope.lon})
@@ -72,24 +73,22 @@ angular.module('weatherApp', ['ngResource'])
 			fetchWeatherData.getSummaryWeatherByCity().get({city:city})
 	    	.$promise.then(function(dailyData) {
 	    		$scope.dailyData = dailyData;
-	      		$scope.changeDay(dailyData.city.name, dailyData.list[0].dt);
+	      		$scope.changeDay(dailyData.list[0].dt);
 	      		$scope.selectedDay = dailyData.list[0].dt;
+	      		$scope.isDailyDataLoaded = true;
 	    	});
 
 	    	fetchWeatherData.getDetailedWeatherByCity().get({city:city})
 	    	.$promise.then(function(hourlyData) {
 	    		$scope.hourlyData = hourlyData;
 	      		$scope.detailedWeatherData = hourlyData.list;
+	      		$scope.isHourlyDataLoaded = true;
 	    	});
 
 		};
 
-	    $scope.changeDay = function(city, day){
+	    $scope.changeDay = function(day){
 	    	$scope.selectedDay = day;
-	    	fetchWeatherData.getDetailedWeatherByCity().get({city:city})
-	    	.$promise.then(function(hours) {
-	    		$scope.hours = hours;
-	    	});
 	    };
 
 	    $scope.getDaysDetails = function(){
