@@ -2,24 +2,19 @@ angular.module('weatherApp', ['ngResource'])
 	.service('fetchWeatherData',['$resource', function($resource) {
 
         this.getWeatherByCity = function() {
-        	return $resource('http://worksample-api.herokuapp.com/weather?q=:city&key=62fc4256-8f8c-11e5-8994-feff819cdc9f', {city:'@city'});
-    		//return $resource('http://api.openweathermap.org/data/2.5/weather?q=:city&units=metric&appid=4b80da9843e489246022d72d79a1e508', {city:'@city'});
-
+    		return $resource('http://api.openweathermap.org/data/2.5/weather?q=:city&units=metric&appid=4b80da9843e489246022d72d79a1e508', {city:'@city'});
     	};
 
     	this.getSummaryWeatherByCity = function() {
-    		return $resource('http://worksample-api.herokuapp.com/forecast/daily?q=:city&key=62fc4256-8f8c-11e5-8994-feff819cdc9f', {city:'@city'});
-    		//return $resource('http://api.openweathermap.org/data/2.5/forecast/daily?q=:city&units=metric&appid=4b80da9843e489246022d72d79a1e508', {city:'@city'});
+    		return $resource('http://api.openweathermap.org/data/2.5/forecast/daily?q=:city&units=metric&appid=4b80da9843e489246022d72d79a1e508', {city:'@city'});
     	};
 
     	this.getDetailedWeatherByCity = function() {
-    		return $resource('http://worksample-api.herokuapp.com/forecast?q=:city&key=62fc4256-8f8c-11e5-8994-feff819cdc9f', {city:'@city'});
-    		//return $resource('http://api.openweathermap.org/data/2.5/forecast?q=:city&units=metric&appid=4b80da9843e489246022d72d79a1e508', {city:'@city'});
+    		return $resource('http://api.openweathermap.org/data/2.5/forecast?q=:city&units=metric&appid=4b80da9843e489246022d72d79a1e508', {city:'@city'});
     	};
 
 	   	this.getWeatherByCoord = function() {
-    		return $resource('http://worksample-api.herokuapp.com/weather?lat=:lat&lon=:lon&key=62fc4256-8f8c-11e5-8994-feff819cdc9f', {lat:'@lat', lon:'@lon'});
-    		//return $resource('http://api.openweathermap.org/data/2.5/weather?lat=:lat&lon=:lon&units=metric&appid=4b80da9843e489246022d72d79a1e508', {lat:'@lat', lon:'@lon'});
+    		return $resource('http://api.openweathermap.org/data/2.5/weather?lat=:lat&lon=:lon&units=metric&appid=4b80da9843e489246022d72d79a1e508', {lat:'@lat', lon:'@lon'});
     	};
 
 	}])
@@ -42,16 +37,16 @@ angular.module('weatherApp', ['ngResource'])
 			$scope.isHourlyDataLoaded = false;
 			fetchWeatherData.getWeatherByCity().get({city:$scope.city})
 	    	.$promise.then(function(currentData) {
-	    		$scope.currentData = currentData;
-	      		if ($scope.currentData.cod >= "400"){
-	      			$scope.isLoading = false;
-	      			$scope.isError = true;
-				} else {					
-		      		$scope.isLoading = false;
-		      		$scope.isError = false;
-		      		$scope.currentWeatherData = true;
-		      		getData($scope.currentData.name);
-				};
+	    		$scope.currentData = currentData;					
+	      		$scope.isLoading = false;
+	      		$scope.isError = false;
+	      		$scope.currentWeatherData = true;
+	      		getData($scope.currentData.name);
+
+	    	}).catch(function(e){
+	    		$scope.error = e;
+	    		$scope.isLoading = false;
+	      		$scope.isError = true;
 	    	});
 	    						
 	    	$scope.city = '';
@@ -106,4 +101,3 @@ angular.module('weatherApp', ['ngResource'])
 
 	    };
 	}])
-
