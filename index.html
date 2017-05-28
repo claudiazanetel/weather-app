@@ -30,10 +30,13 @@
             </div>
             <div class="row currentWeatherData">
                 <div class="col-12-xs" ng-show="currentWeatherData">
-                    <h2>{{currentData.name}}</h2>
-                    <i class="wi wi-owm-{{currentData.weather[0].id}}" style="font-size: 60px;"></i><br>
-                    <h4>{{currentData.weather[0].description}}</h4>
-                    <h3>{{currentData.main.temp | number:0}}°C</h3>    
+                    <div class="city">
+                        <h2> &nbsp; &nbsp; &nbsp; {{currentData.name}} &nbsp;<span class="glyphicon glyphicon-star-empty star"></span></h2>
+                    <div>
+                        <i class="wi wi-owm-{{currentData.weather[0].id}}" style="font-size: 60px;"></i><br>
+                        <h4>{{currentData.weather[0].description}}</h4>
+                        <h3>{{currentData.main.temp | number:0}}°C</h3>
+                    </div>
                 </div>
             </div>
             <div class="row" ng-show="isDailyDataLoaded">
