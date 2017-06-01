@@ -29,13 +29,14 @@ angular.module('weatherApp', ['ngResource', 'ngStorage'])
 		$scope.isLoading = false;
 		$scope.isError = false;
 
-		$scope.chooseCity = function() {
+		$scope.chooseCity = function(city) {
 			$scope.isError = false;
 			$scope.isLoading = true;
 			$scope.currentWeatherData = false;
 			$scope.isDailyDataLoaded = false;
 			$scope.isHourlyDataLoaded = false;
-			fetchWeatherData.getWeatherByCity().get({city:$scope.city})
+			inputCity = city || $scope.city;
+			fetchWeatherData.getWeatherByCity().get({city:inputCity})
 	    	.$promise.then(function(currentData) {
 	    		$scope.currentData = currentData;					
 	      		$scope.isLoading = false;
@@ -105,12 +106,10 @@ angular.module('weatherApp', ['ngResource', 'ngStorage'])
         	"cities": []
     	});
 
-	    $scope.AddCityToFavorite = function(){
+	    $scope.addCityToFavorites = function(){
 	    	$scope.favoriteCity = $scope.currentData.name;
-			//console.log($scope.favoriteCity);
-			//$localStorage.favoriteCity = push($scope.favoriteCity);
 			$scope.$storage.cities.push($scope.favoriteCity);
-			console.log($scope.$storage.cities[1]);
+
 
 	    };
 
