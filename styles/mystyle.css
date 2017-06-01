@@ -11,6 +11,11 @@ span{
 	padding: 0;
 }
 
+.row{
+	margin-right: 0;
+	margin-left: 0;
+}
+
 .navbar-form{
 	text-align: center;
 	margin-left: 5%;

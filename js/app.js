@@ -101,9 +101,17 @@ angular.module('weatherApp', ['ngResource', 'ngStorage'])
 
 	    };
 
+	    $scope.$storage = $localStorage.$default({
+        	"cities": []
+    	});
+
 	    $scope.AddCityToFavorite = function(){
 	    	$scope.favoriteCity = $scope.currentData.name;
-			console.log($scope.favoriteCity);
+			//console.log($scope.favoriteCity);
+			//$localStorage.favoriteCity = push($scope.favoriteCity);
+			$scope.$storage.cities.push($scope.favoriteCity);
+			console.log($scope.$storage.cities[1]);
 
 	    };
+
 	}])
