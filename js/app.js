@@ -1,4 +1,4 @@
-angular.module('weatherApp', ['ngResource'])
+angular.module('weatherApp', ['ngResource', 'ngStorage'])
 	.service('fetchWeatherData',['$resource', function($resource) {
 
         this.getWeatherByCity = function() {
@@ -19,7 +19,7 @@ angular.module('weatherApp', ['ngResource'])
 
 	}])
 
-	.controller('weatherController', ['$scope', 'fetchWeatherData', function($scope, fetchWeatherData) {
+	.controller('weatherController', ['$scope', 'fetchWeatherData', '$localStorage', function($scope, fetchWeatherData, $localStorage) {
 
 		$scope.currentWeatherData = false;
 		$scope.isDailyDataLoaded = false;
@@ -48,7 +48,7 @@ angular.module('weatherApp', ['ngResource'])
 	    		$scope.isLoading = false;
 	      		$scope.isError = true;
 	    	});
-	    						
+
 	    	$scope.city = '';
 		};
 
@@ -98,6 +98,12 @@ angular.module('weatherApp', ['ngResource'])
 	    	return $scope.detailedWeatherData.filter(function(element){
 	    		return element.dt >= from && element.dt < to;
 	    	});
+
+	    };
+
+	    $scope.AddCityToFavorite = function(){
+	    	$scope.favoriteCity = $scope.currentData.name;
+			console.log($scope.favoriteCity);
 
 	    };
 	}])

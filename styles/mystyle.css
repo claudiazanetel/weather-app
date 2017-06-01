@@ -6,6 +6,10 @@ span{
 	font-weight: bold;
 }
 
+.page{
+	margin: 0;
+	padding: 0;
+}
 
 .navbar-form{
 	text-align: center;
@@ -77,5 +81,23 @@ span{
 	width:24%;
 	text-align: center;
 	margin-right: 0;
+}
+
+#listFavoriteCities>li {
+	color: grey;
+	list-style-type: none;
+}
+
+#listFavoriteCities>li>a {
+	color: black;
+	text-decoration: none;
+	list-style-type: none;
+}
+
+
+@media (max-width: 767px){
+	.navbar-default .navbar-nav .open .dropdown-menu>li>a {
+	    color: black;
+	}
 }
 
