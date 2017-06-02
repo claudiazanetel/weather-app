@@ -42,6 +42,7 @@ angular.module('weatherApp', ['ngResource', 'ngStorage'])
 	      		$scope.isLoading = false;
 	      		$scope.isError = false;
 	      		$scope.currentWeatherData = true;
+	      		$scope.setStar($scope.currentData.name);
 	      		getData($scope.currentData.name);
 
 	    	}).catch(function(e){
@@ -49,7 +50,7 @@ angular.module('weatherApp', ['ngResource', 'ngStorage'])
 	    		$scope.isLoading = false;
 	      		$scope.isError = true;
 	    	});
-
+			
 	    	$scope.city = '';
 		};
 
@@ -61,6 +62,7 @@ angular.module('weatherApp', ['ngResource', 'ngStorage'])
 			fetchWeatherData.getWeatherByCoord().get({lat:$scope.lat, lon:$scope.lon})
 	    		.$promise.then(function(currentData) {
 	    			$scope.currentData = currentData;
+	    			$scope.setStar($scope.currentData.name);
 	      			getData($scope.currentData.name);
 	      			$scope.currentWeatherData = true;
 	      			$scope.isLoading = false;
@@ -106,14 +108,29 @@ angular.module('weatherApp', ['ngResource', 'ngStorage'])
         	"cities": []
     	});
 
-	    $scope.addCityToFavorites = function(){
-	    	$scope.favoriteCity = $scope.currentData.name;
+	    $scope.addCityToFavorites = function(city){
+	    	$scope.favoriteCity = city || $scope.currentData.name;
+	    	//$scope.favoriteCity = $scope.currentData.name;
 	    	index = $scope.$storage.cities.indexOf($scope.favoriteCity)
 	    	if(index < 0) {
 				$scope.$storage.cities.push($scope.favoriteCity);
 			} else {
 				$scope.$storage.cities.splice(index, 1);
 			}
+			$scope.setStar($scope.favoriteCity);
+
 	    };
 
+	    $scope.setStar = function(city){
+	    	index = $scope.$storage.cities.indexOf(city);
+	    	if(index < 0) {
+	    		console.log($scope.$storage.cities);
+				console.log('stellina vuota --> '+city);
+				$scope.star = "glyphicon-star-empty";
+			} else {
+				console.log($scope.$storage.cities);
+				console.log('stellina piena -->'+city);
+				$scope.star = "glyphicon-star";
+			}
+	    };
 	}])

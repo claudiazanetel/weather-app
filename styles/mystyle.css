@@ -88,6 +88,10 @@ span{
 	margin-right: 0;
 }
 
+#listFavoriteCities{
+	min-width: 180px;
+}
+
 #listFavoriteCities>li {
 	color: grey;
 	list-style-type: none;
@@ -97,8 +101,14 @@ span{
 	color: black;
 	text-decoration: none;
 	list-style-type: none;
+	display: inline-block;
 }
 
+#listFavoriteCities>li>span {
+	color: black;
+	float: right;
+	padding: 2%;
+}
 
 @media (max-width: 767px){
 	.navbar-default .navbar-nav .open .dropdown-menu>li>a {
