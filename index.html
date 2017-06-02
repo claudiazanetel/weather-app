@@ -22,15 +22,13 @@
                     </div>
                     <div class="collapse navbar-collapse" id="favorites-menu">
                         <ul class="nav navbar-nav navbar-right">
+                            <li ng-click="addCityToFavorites()"><a><span class="glyphicon glyphicon-star-empty"></a></li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="my_favorite">Favourites<span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li ng-click="addCityToFavorites()"><a>Add city<span class="glyphicon glyphicon-star-empty"></span></a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a>My Cities:</a></li>
-                                        <ul id="listFavoriteCities">
-                                            <li ng-repeat="city in $storage.cities" ng-click="chooseCity(city)"><a>{{city}}</a></li>
-                                        </ul>
+                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="my_favorite">Favourites<span class="caret"></span></a>
+                                <ul class="dropdown-menu" id="listFavoriteCities">
+                                    <li ng-repeat="city in $storage.cities" ng-click="chooseCity(city)">
+                                        <a>{{city}}</a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
