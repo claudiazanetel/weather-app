@@ -49,10 +49,8 @@ angular.module('weatherApp', ['ngResource', 'ngStorage'])
 		    	});
 			},
 			function(error) { 
-  				if (error.code == error.PERMISSION_DENIED) {
-  					if($scope.$storage.cities.length > 0) {
-		    			$scope.chooseCity($scope.$storage.cities[0]);
-  					}
+				if($scope.$storage.cities.length > 0) {
+    				$scope.chooseCity($scope.$storage.cities[0]);
   				} else {
   					console.log(error);
   				}
