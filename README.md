@@ -17,4 +17,3 @@ Open index.html with google chrome
 ## Live demo ##
 This app has been deployed on AWS S3 [link](http://my-weather-app.s3-website.eu-central-1.amazonaws.com/).
 On S3 the brower's geolocation is disable since not running on https. If you run it locally the geolocation works.
-P.S. I'm using my own API key on amazon.
