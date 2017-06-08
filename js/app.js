@@ -1,4 +1,4 @@
-angular.module('weatherApp', ['ngResource', 'ngStorage'])
+angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analytics'])
 	.service('fetchWeatherData',['OPENWEATHERMAP_APIKEY','$resource', function(APIKEY, $resource) {
 
         this.getWeatherByCity = function() {
