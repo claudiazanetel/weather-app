@@ -1,0 +1,29 @@
+language: node_js
+node_js:
+  - '7'
+
+before_script:
+  - npm install
+
+script: gulp
+
+before_deploy:
+  - sed -i -e "s|__OPENWEATHERMAP_APIKEY__|$OPENWEATHERMAP_APIKEY|g" js/config.template.js
+  - mv js/config.template.js js/config.js
+  - rm -rf node_modules
+
+deploy:
+  provider: s3
+  access_key_id: AKIAJVLQVM67YCKTWHGQ
+  secret_access_key:
+    secure: Z1JEL5CZgIbYebfQ0I3YHS2LdymyvVhNPa9pkbIB+TBq+yizLHMyrq5MCdx1/800w4ffuuDDHRBFai7j6vxKYhyZ/mpnQKn5okT6xa0xe7dhXnkz9QrgytWJznc36mLj3IHoWa0cphMh8ejcX6TK7b5bBG3C7C2Ld0O8r5vtbsJTF93ugrYJHZLhKp2OUVUiJgqR7J1oYiiM1Jl2VynZQWAOR54n9HQOQgG70YYnwltGuuCYf9EabcGswNC40nYUIZZ2nRZF6qWROdaG4qMCz57yf5Pmv3S6nCfWxqjoAeLYj4fotpz5k0oPiWOoV6dct1uD3UPIQz2/HZu9z7I9f+5hmUfpy11978iHm9gMQLlaeTc/8Iyc4r1Kj1EzugkUX2k7Wl4a57mdGW+DEJ+SLHXPaJgrW2hFjMMIAYN7ZA0m0Mas081wcO2cp5IyEV6qy2ufowYoqiOBmvu4OlfrrSRF9uGbiX22TZsIfLsiQjMN6CeAuS8qIs7tMYMxrDybk2w+yh/AQvl9Cxb1psoUNQt+eP+UsPFJbCcjIwOS4wd+Y6zu7kDkSa98IJl8lpXIsxYOjd7Fyhj+hs7yaQVg81ym78v1DwKTPxstfvuujlswqt57OCxmfFmv/0CEVdOTdfbaHr+8gRHt3a+9+9FIKBBvtTRV3UFqtmlspPiuu78=
+  bucket: my-weather-app
+  acl: public_read
+  on:
+    repo: claudiazanetel/weather-app
+    branch: master
+  skip_cleanup: true
+
+env:
+  global:
+    secure: JqRf7pwbJhXHlr230/fQh3ayw5bEp5Mh+8+LL+QUbOCCf30lWeh5CUyckqLY1PXfuqv7OKaEqM6OfMjmW1eKfzveQRSuCCEr3UC9Y6Ys/eljO+4OZUlHh28TZKbFW1mI74+jvcPBisyGwMNsDFZx/Vcu/sj9+hSFS0pSMQ8kRi/2LIcgIrzVxKz2aRtk6qCbx9rfN9MePNv+sX8qz/b4YgQSC03HteWXUIF+FONLXztfGnKmSyHtKA5jxCtFWBGBIOFSAUxCqOeprXRTIytE5+fHrouIzC95IZHXq61Ip++fogEXSKlWLrUAKQXgAsMRKh8HDYhVvv0RCsqrNb0BatKPfSb9+tkBLn4yNR0ulvuXSUGERzCfmUlZFaRcn8J/qryErgTmvii7dtU8duZjh6nIhlylDqEjtAe+DN9CO6/YtiMRU6UAzUDErRFaZZVVF0YARDmSrTq9qS7g2CMpbabwn3sY2Fw66JfKXbWgAeK8d/SIRrk5sgJkAV5N0RHJliR3aRs2fI4j4ZRd0Odb2XhkvgsPDBqbRIFNTbJ5riL+4P1C7Mp+b3qjNdror9KZqmy3aXsqCB9GIUT8p3Av/VGa1VpkeR8BTDLYsdN/Cdf2RZ+9GCp38u/6kmAMtAjnwFax09ThvKn72IaXmNoD60T8K0/0X59AYu5kRqAieAM=

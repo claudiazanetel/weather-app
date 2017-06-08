@@ -1,20 +1,20 @@
 angular.module('weatherApp', ['ngResource', 'ngStorage'])
-	.service('fetchWeatherData',['$resource', function($resource) {
+	.service('fetchWeatherData',['OPENWEATHERMAP_APIKEY','$resource', function(APIKEY, $resource) {
 
         this.getWeatherByCity = function() {
-    		return $resource('http://api.openweathermap.org/data/2.5/weather?q=:city&units=metric&appid=4b80da9843e489246022d72d79a1e508', {city:'@city'});
+    		return $resource('http://api.openweathermap.org/data/2.5/weather?q=:city&units=metric&appid='+ APIKEY, {city:'@city'});
     	};
 
     	this.getSummaryWeatherByCity = function() {
-    		return $resource('http://api.openweathermap.org/data/2.5/forecast/daily?q=:city&units=metric&appid=4b80da9843e489246022d72d79a1e508', {city:'@city'});
+    		return $resource('http://api.openweathermap.org/data/2.5/forecast/daily?q=:city&units=metric&appid='+ APIKEY, {city:'@city'});
     	};
 
     	this.getDetailedWeatherByCity = function() {
-    		return $resource('http://api.openweathermap.org/data/2.5/forecast?q=:city&units=metric&appid=4b80da9843e489246022d72d79a1e508', {city:'@city'});
+    		return $resource('http://api.openweathermap.org/data/2.5/forecast?q=:city&units=metric&appid='+ APIKEY, {city:'@city'});
     	};
 
 	   	this.getWeatherByCoord = function() {
-    		return $resource('http://api.openweathermap.org/data/2.5/weather?lat=:lat&lon=:lon&units=metric&appid=4b80da9843e489246022d72d79a1e508', {lat:'@lat', lon:'@lon'});
+    		return $resource('http://api.openweathermap.org/data/2.5/weather?lat=:lat&lon=:lon&units=metric&appid='+ APIKEY, {lat:'@lat', lon:'@lon'});
     	};
 
 	}])
