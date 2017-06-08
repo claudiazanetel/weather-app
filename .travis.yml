@@ -10,6 +10,7 @@ script: gulp
 before_deploy:
   - sed -i -e "s|__OPENWEATHERMAP_APIKEY__|$OPENWEATHERMAP_APIKEY|g" js/config.template.js
   - mv js/config.template.js js/config.js
+  - rm -rf node_modules
 
 deploy:
   provider: s3
