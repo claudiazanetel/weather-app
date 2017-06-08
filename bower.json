@@ -5,6 +5,7 @@
     	"weather-icons": "2.0.10",
     	"angular": "v1.6.4",
     	"angular-resource":"v1.6.4",
-    	"ngstorage":"0.3.10"
+    	"ngstorage":"0.3.10",
+    	"angular-google-analytics":"1.1.9"
     }
 }
