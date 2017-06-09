@@ -19,7 +19,38 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 
 	}])
 
-	.controller('weatherController', ['$scope', 'fetchWeatherData', '$localStorage', function($scope, fetchWeatherData, $localStorage) {
+	.service('favouritesService',['$localStorage', function($localStorage){
+		this.storage = $localStorage.$default({
+        	"cities": []
+    	});
+
+		this.getCities = function() {
+			return this.storage.cities;
+		};
+
+		this.hasCity = function(city) {
+			index = this.storage.cities.indexOf(city);
+			if(index < 0){
+				return false;
+			}
+			return true;
+		};
+
+		this.addCity = function(city) {
+			if(!this.hasCity(city)){
+				this.storage.cities.push(city);
+			}
+		};
+
+		this.removeCity = function(city) {
+			if(this.hasCity(city)){
+				this.storage.cities.splice(index, 1);
+			}
+		};
+
+	}])
+
+	.controller('weatherController', ['$scope', 'fetchWeatherData', 'favouritesService', function($scope, fetchWeatherData, favouritesService) {
 
 		$scope.currentWeatherData = false;
 		$scope.isDailyDataLoaded = false;
@@ -28,9 +59,6 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 		$scope.city = '';
 		$scope.isLoading = false;
 		$scope.isError = false;
-		$scope.$storage = $localStorage.$default({
-        	"cities": []
-    	});
 
 		navigator.geolocation.watchPosition(
 			function(location) {
@@ -118,22 +146,20 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 
 	    $scope.addCityToFavorites = function(city){
 	    	$scope.favoriteCity = city || $scope.currentData.name;
-	    	//$scope.favoriteCity = $scope.currentData.name;
-	    	index = $scope.$storage.cities.indexOf($scope.favoriteCity)
-	    	if(index < 0) {
-				$scope.$storage.cities.push($scope.favoriteCity);
+	    	if(favouritesService.hasCity($scope.favoriteCity)) {
+				favouritesService.removeCity($scope.favoriteCity);
 			} else {
-				$scope.$storage.cities.splice(index, 1);
+			 	favouritesService.addCity($scope.favoriteCity);
 			}
+	    	
 			setStar($scope.favoriteCity);
 	    };
 
 	    setStar = function(city){
-	    	index = $scope.$storage.cities.indexOf(city);
-	    	if(index < 0) {
-				$scope.star = "glyphicon-star-empty";
-			} else {
+	    	if(favouritesService.hasCity(city)) {
 				$scope.star = "glyphicon-star";
+			} else {
+			 	$scope.star = "glyphicon-star-empty";
 			}
 	    };
 
@@ -141,7 +167,7 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 	    	console.log(document.getElementById("favouritesMenu").style.width);
 	    	isMenuClosed = document.getElementById("favouritesMenu").style.width == "0px";
 	    	if(isMenuClosed) {
-	    		document.getElementById("favouritesMenu").style.width = "80%";
+	    		document.getElementById("favouritesMenu").style.width = "0%";
 	    	} else {
 	    		document.getElementById("favouritesMenu").style.width = "0px";
 	    	}	    	
