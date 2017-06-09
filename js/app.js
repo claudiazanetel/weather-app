@@ -64,6 +64,7 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 			$scope.isDailyDataLoaded = false;
 			$scope.isHourlyDataLoaded = false;
 			inputCity = city || $scope.city;
+			$scope.closeMenu();
 			fetchWeatherData.getWeatherByCity().get({city:inputCity})
 	    	.$promise.then(function(currentData) {
 	    		$scope.currentData = currentData;					
@@ -71,14 +72,12 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 	      		$scope.isError = false;
 	      		$scope.currentWeatherData = true;
 	      		setStar($scope.currentData.name);
-	      		getData($scope.currentData.name);
-
+	      		getData($scope.currentData.name);	      		
 	    	}).catch(function(e){
 	    		$scope.error = e;
 	    		$scope.isLoading = false;
 	      		$scope.isError = true;
 	    	});
-			
 	    	$scope.city = '';
 		};
 
@@ -127,7 +126,6 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 				$scope.$storage.cities.splice(index, 1);
 			}
 			setStar($scope.favoriteCity);
-
 	    };
 
 	    setStar = function(city){
