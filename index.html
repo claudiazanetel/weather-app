@@ -12,22 +12,22 @@
     <body>
         <div class="container-fluid page" ng-controller="weatherController">
             <nav class="navbar navbar-default">
-              <div class="container-fluid">
-                <div class="navbar-header">
-                  <a class="navbar-brand" href="#" ng-click="openMenu()">
-                    <img alt="Menu" src="images/toggle-menu.svg">
-                  </a>
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#" ng-click="toggleMenu()">
+                            <img alt="Menu" src="images/toggle-menu.svg">
+                        </a>
+                    </div>
                 </div>
-              </div>
             </nav>
             <div class="row chooseCity">
                 <div class="col-12-xs">
                     <form class="form-inline" name="searchForm" role="search" ng-submit="chooseCity()">
                         <div class="input-group add-on">
-                          <input class="form-control" name="searchCity" type="text" ng-model="city" placeholder="Choose your city" required>
-                          <div class="input-group-btn">
-                            <button class="btn btn-default" type="submit" id="submit"><i class="glyphicon glyphicon-search" ng-disabled="searchForm.$invalid"></i></button>
-                          </div>
+                            <input class="form-control" name="searchCity" type="text" ng-model="city" placeholder="Choose your city" required>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit" id="submit"><i class="glyphicon glyphicon-search" ng-disabled="searchForm.$invalid"></i></button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -42,6 +42,7 @@
                 <div class="col-12-xs" ng-show="currentWeatherData">
                     <div class="city">
                         <h2> &nbsp; &nbsp; &nbsp; {{currentData.name}} &nbsp;<span ng-click="addCityToFavorites()" class="glyphicon {{star}}"></span></h2>
+                    </div>
                     <div>
                         <i class="wi wi-owm-{{currentData.weather[0].id}}" style="font-size: 60px;"></i><br>
                         <h4>{{currentData.weather[0].description}}</h4>
@@ -75,7 +76,7 @@
             </div>
         </div>
         <div id="favouritesMenu" class="menu">
-            <h3>My Favourite cities<span class="glyphicon glyphicon-remove" ng-click="closeMenu()"></span></h3>        
+            <h3>My Favourite cities<span class="glyphicon glyphicon-remove" ng-click="toggleMenu()"></span></h3>        
             <ul class="list-group" id="listFavoriteCities">
                 <!--<li ng-click="addCityToFavorites()"><a><span class="glyphicon {{star}}"></a></li>-->
                 <li class="list-group-item" ng-repeat="city in $storage.cities" ng-click="chooseCity(city)">
