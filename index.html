@@ -7,13 +7,23 @@
         <link href="components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="components/weather-icons/css/weather-icons.min.css" rel="stylesheet">
         <link href="styles/mystyle.css" rel="stylesheet">
+        <link href="styles/slidemenu.css" rel="stylesheet">
     </head>
     <body>
         <div class="container-fluid page" ng-controller="weatherController">
-            <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#" ng-click="openMenu()">
+                <img alt="Menu" src="images/toggle-menu.svg">
+              </a>
+            </div>
+          </div>
+        </nav>
+<!--             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#favorites-menu" aria-expanded="false">
+                        <button type="button"  aria-expanded="false">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -35,10 +45,10 @@
                         </ul>
                     </div>
                 </div>
-            </nav>
+            </nav> -->
             <div class="row chooseCity">
                 <div class="col-12-xs">
-                    <form class="navbar-form" name="searchForm" role="search" ng-submit="chooseCity()">
+                    <form class="form-inline" name="searchForm" role="search" ng-submit="chooseCity()">
                         <div class="input-group add-on">
                           <input class="form-control" name="searchCity" type="text" ng-model="city" placeholder="Choose your city" required>
                           <div class="input-group-btn">
@@ -89,6 +99,16 @@
                 </ul>
                 </div>
             </div>
+        </div>
+        <div id="favouritesMenu" class="menu">
+            <a href="javascript:void(0)" class="closebtn" ng-click="closeMenu()">&times;</a>
+            <ul class="list-group" id="listFavoriteCities">
+                <!--<li ng-click="addCityToFavorites()"><a><span class="glyphicon {{star}}"></a></li>-->
+                <li class="list-group-item" ng-repeat="city in $storage.cities" ng-click="chooseCity(city)">
+                    <a>{{city}}</a>
+                    <span ng-click="addCityToFavorites(city)" class="glyphicon glyphicon glyphicon-trash">
+                </li>
+            </ul>
         </div>
         <script src="components/angular/angular.min.js"></script>
         <script src="components/angular-resource/angular-resource.min.js"></script>

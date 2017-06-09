@@ -16,7 +16,12 @@ span{
 	margin-left: 0;
 }
 
-.navbar-form{
+.chooseCity{
+	position: relative;
+	z-index: 0;
+}
+
+.form-inline{
 	text-align: center;
 	margin-left: 5%;
 	margin-right: 5%;
@@ -105,9 +110,7 @@ span{
 }
 
 #listFavoriteCities>li>span {
-	color: black;
 	float: right;
-	padding: 2%;
 }
 
 @media (max-width: 767px){

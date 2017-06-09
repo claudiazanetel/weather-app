@@ -138,4 +138,12 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 				$scope.star = "glyphicon-star";
 			}
 	    };
+
+	    $scope.openMenu = function(){
+	    	document.getElementById("favouritesMenu").style.width = "80%";
+	    };
+
+	    $scope.closeMenu = function(){
+	    	document.getElementById("favouritesMenu").style.width = "0";
+	    };
 	}])
