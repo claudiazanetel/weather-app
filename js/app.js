@@ -50,7 +50,7 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 
 	}])
 
-	.controller('weatherController', ['$scope', 'fetchWeatherData', 'favouritesService', function($scope, fetchWeatherData, favouritesService) {
+	.controller('weatherController', ['$rootScope', '$scope', 'fetchWeatherData', 'favouritesService', function($rootScope, $scope, fetchWeatherData, favouritesService) {
 
 		$scope.currentWeatherData = false;
 		$scope.isDailyDataLoaded = false;
@@ -162,9 +162,15 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 			}
 	    };
 
+		$rootScope.$on('changeCity', function(event, city) {
+			if(city != $scope.currentData.name){
+				$scope.chooseCity(city);
+			}
+		});
+
 	}])
 
-	.controller('favouritesController', ['$scope', 'favouritesService', function($scope, favouritesService) {
+	.controller('favouritesController', ['$rootScope', '$scope', 'favouritesService', function($rootScope, $scope, favouritesService) {
 
 	    $scope.getFavouriteCities = function() {
 	    	return favouritesService.getCities();
@@ -176,6 +182,11 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 
 	    $scope.closeMenu = function(){
 			document.getElementById("favouritesMenu").style.width = "0px";
+	    };
+
+	    $scope.loadCity = function(city){
+	    	console.log('changeCity:'+city);
+	    	$rootScope.$emit('changeCity', city);
 	    };
 
 	}])

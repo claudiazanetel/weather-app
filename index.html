@@ -80,7 +80,7 @@
             <ul class="list-group" id="listFavoriteCities">
                 <!--<li ng-click="addCityToFavorites()"><a><span class="glyphicon {{star}}"></a></li>-->
                 <li class="list-group-item" ng-repeat="city in getFavouriteCities()" >
-                    <a>{{city}}</a>
+                    <a ng-click="loadCity(city)">{{city}}</a>
                     <span ng-click="removeCityFromFavoriteList(city)" class="glyphicon glyphicon glyphicon-trash">
                 </li>
             </ul>
