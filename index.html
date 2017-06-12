@@ -38,7 +38,7 @@
             <div class="alert alert-danger" role="alert" ng-show="isError">
                 <p>Error: {{error.data.message}}</p>
             </div>
-            <div class="row currentWeatherData" ng-click="toggleMenu()">
+            <div class="row currentWeatherData">
                 <div class="col-12-xs" ng-show="currentWeatherData">
                     <div class="city">
                         <h2> &nbsp; &nbsp; &nbsp; {{currentData.name}} &nbsp;<span ng-click="addCityToFavorites()" class="glyphicon {{star}}"></span></h2>

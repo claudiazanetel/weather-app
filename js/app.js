@@ -58,6 +58,14 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 
 		};
 
+	    this.setStar = function(city){
+	    	if(this.hasCity(city)) {
+				return "glyphicon-star";
+			} else {
+			 	return "glyphicon-star-empty";
+			}
+	    };		
+
 	}])
 
 	.controller('weatherController', ['$scope', 'fetchWeatherData', 'favouritesService', function($scope, fetchWeatherData, favouritesService) {
@@ -80,7 +88,7 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 				fetchWeatherData.getWeatherByCoord().get({lat:$scope.lat, lon:$scope.lon})
 		    		.$promise.then(function(currentData) {
 		    			$scope.currentData = currentData;
-		    			setStar($scope.currentData.name);
+		    			$scope.star = favouritesService.setStar($scope.currentData.name);
 		      			getData($scope.currentData.name);
 		      			$scope.currentWeatherData = true;
 		      			$scope.isLoading = false;
@@ -109,7 +117,7 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 	      		$scope.isLoading = false;
 	      		$scope.isError = false;
 	      		$scope.currentWeatherData = true;
-	      		setStar($scope.currentData.name);
+	      		$scope.star = favouritesService.setStar($scope.currentData.name);
 	      		getData($scope.currentData.name);	      		
 	    	}).catch(function(e){
 	    		$scope.error = e;
@@ -160,22 +168,21 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 				favouritesService.removeCity($scope.favoriteCity);
 			} else {
 			 	favouritesService.addCity($scope.favoriteCity);
-			}
-	    	
-			setStar($scope.favoriteCity);
+			}	    	
+			$scope.star = favouritesService.setStar($scope.favoriteCity);
 	    };
 
 	    $scope.toggleMenu = function(){
 			favouritesService.setMenu();
 	    };
-
+/*
 	    setStar = function(city){
 	    	if(favouritesService.hasCity(city)) {
 				$scope.star = "glyphicon-star";
 			} else {
 			 	$scope.star = "glyphicon-star-empty";
 			}
-	    };
+	    };*/
 
 
 	}])
@@ -186,13 +193,20 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 
 	    $scope.removeCityInFavoriteList = function(city){
 	    	favouritesService.removeCity(city);
-	    }
+	    			
+
+
+	    	//$scope.star = favouritesService.setStar(city);
+	    	//console.log($scope.star);
+	    	
+
+	    };
 
 	    $scope.toggleMenu = function(){
 			favouritesService.setMenu();
 	    };
 
-
+console.log($scope.favoutitesCities);
 
 
 /*	    $scope.toggleMenu = function(){
