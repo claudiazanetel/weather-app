@@ -41,7 +41,7 @@
             <div class="row currentWeatherData">
                 <div class="col-12-xs" ng-show="currentWeatherData">
                     <div class="city">
-                        <h2> &nbsp; &nbsp; &nbsp; {{currentData.name}} &nbsp;<span ng-click="addCityToFavorites()" class="glyphicon {{star}}"></span></h2>
+                        <h2> &nbsp; &nbsp; &nbsp; {{currentData.name}} &nbsp;<span ng-click="addCityToFavorites(currentData.name)" class="glyphicon {{getStar(currentData.name)}}"></span></h2>
                     </div>
                     <div>
                         <i class="wi wi-owm-{{currentData.weather[0].id}}" style="font-size: 60px;"></i><br>
@@ -79,9 +79,9 @@
             <h3>My Favourite cities<span class="glyphicon glyphicon-remove" ng-click="closeMenu()"></span></h3>  
             <ul class="list-group" id="listFavoriteCities">
                 <!--<li ng-click="addCityToFavorites()"><a><span class="glyphicon {{star}}"></a></li>-->
-                <li class="list-group-item" ng-repeat="city in favoutitesCities" >
+                <li class="list-group-item" ng-repeat="city in getFavouriteCities()" >
                     <a>{{city}}</a>
-                    <span ng-click="removeCityInFavoriteList(city)" class="glyphicon glyphicon glyphicon-trash">
+                    <span ng-click="removeCityFromFavoriteList(city)" class="glyphicon glyphicon glyphicon-trash">
                 </li>
             </ul>
         </div>
