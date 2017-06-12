@@ -48,6 +48,16 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 			}
 		};
 
+		this.setMenu = function() {
+	    	isMenuClosed = document.getElementById("favouritesMenu").style.width == "0px";
+	    	if(isMenuClosed) {
+	    		return document.getElementById("favouritesMenu").style.width = "50%";
+	    	} else {
+	    		return document.getElementById("favouritesMenu").style.width = "0px";
+	    	}	 
+
+		};
+
 	}])
 
 	.controller('weatherController', ['$scope', 'fetchWeatherData', 'favouritesService', function($scope, fetchWeatherData, favouritesService) {
@@ -59,6 +69,7 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 		$scope.city = '';
 		$scope.isLoading = false;
 		$scope.isError = false;
+		favouritesService.setMenu() == false;
 
 		navigator.geolocation.watchPosition(
 			function(location) {
@@ -92,7 +103,6 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 			$scope.isDailyDataLoaded = false;
 			$scope.isHourlyDataLoaded = false;
 			inputCity = city || $scope.city;
-			$scope.toggleMenu();
 			fetchWeatherData.getWeatherByCity().get({city:inputCity})
 	    	.$promise.then(function(currentData) {
 	    		$scope.currentData = currentData;					
@@ -155,6 +165,10 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 			setStar($scope.favoriteCity);
 	    };
 
+	    $scope.toggleMenu = function(){
+			favouritesService.setMenu();
+	    };
+
 	    setStar = function(city){
 	    	if(favouritesService.hasCity(city)) {
 				$scope.star = "glyphicon-star";
@@ -163,14 +177,36 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 			}
 	    };
 
+
+	}])
+
+	.controller('favouritesController', ['$scope', 'favouritesService', function($scope, favouritesService) {
+
+	    $scope.favoutitesCities = favouritesService.getCities();
+
+	    $scope.removeCityInFavoriteList = function(city){
+	    	favouritesService.removeCity(city);
+	    }
+
 	    $scope.toggleMenu = function(){
+			favouritesService.setMenu();
+	    };
+
+
+
+
+/*	    $scope.toggleMenu = function(){
 	    	console.log(document.getElementById("favouritesMenu").style.width);
 	    	isMenuClosed = document.getElementById("favouritesMenu").style.width == "0px";
 	    	if(isMenuClosed) {
-	    		document.getElementById("favouritesMenu").style.width = "0%";
+	    		document.getElementById("favouritesMenu").style.width = "5%";
 	    	} else {
 	    		document.getElementById("favouritesMenu").style.width = "0px";
 	    	}	    	
 	    };
+*/
 
 	}])
+
+
+
