@@ -99,7 +99,7 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 	    		$scope.error = e;
 	    		$scope.isLoading = false;
 	      		$scope.isError = true;
-	      		$scope.isPageEmpty = false;
+	      		$scope.isPageEmpty = true;
 	    	});
 	    	$scope.city = '';
 		};
