@@ -41,6 +41,11 @@ span{
 	padding-left: 10%;
 }
 
+.city{
+	text-align: center;
+	font-size: 30px;
+}
+
 .currentWeatherData{
 	text-align: center;
 }

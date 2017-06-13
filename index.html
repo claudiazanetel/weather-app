@@ -41,7 +41,7 @@
             <div class="row currentWeatherData">
                 <div class="col-12-xs" ng-show="currentWeatherData">
                     <div class="city">
-                        <h2> &nbsp; &nbsp; &nbsp; {{currentData.name}} &nbsp;<span ng-click="addCityToFavorites(currentData.name)" class="glyphicon {{getStar(currentData.name)}}"></span></h2>
+                        <h2>{{currentData.name}}&nbsp;<span ng-click="addCityToFavorites(currentData.name)" class="glyphicon {{getStar(currentData.name)}}"></span></h2>
                     </div>
                     <div>
                         <i class="wi wi-owm-{{currentData.weather[0].id}}" style="font-size: 60px;"></i><br>
@@ -75,15 +75,19 @@
                 </div>
             </div>
         </div>
-        <div id="favouritesMenu" class="menu" ng-controller="favouritesController">
-            <h3>My Favourite cities<span class="glyphicon glyphicon-remove" ng-click="closeMenu()"></span></h3>  
-            <ul class="list-group" id="listFavoriteCities">
-                <!--<li ng-click="addCityToFavorites()"><a><span class="glyphicon {{star}}"></a></li>-->
-                <li class="list-group-item" ng-repeat="city in getFavouriteCities()" >
-                    <a ng-click="loadCity(city)">{{city}}</a>
-                    <span ng-click="removeCityFromFavoriteList(city)" class="glyphicon glyphicon glyphicon-trash">
-                </li>
-            </ul>
+        <div class="container-fluid" ng-controller="favouritesController">
+            <div class="menu" id="favouritesMenu">
+                <h3>My Favourite cities<span class="glyphicon glyphicon-remove" ng-click="closeMenu()"></span></h3>  
+                <ul class="list-group" id="listFavoriteCities">
+                    <!--<li ng-click="addCityToFavorites()"><a><span class="glyphicon {{star}}"></a></li>-->
+                    <li class="list-group-item" ng-repeat="city in getFavouriteCities()" ng-click="loadCity(city); closeMenu()">
+                        <a >{{city}}</a>
+                        <span ng-click="removeCityFromFavoriteList(city)" class="glyphicon glyphicon glyphicon-trash">
+                    </li>
+                </ul>
+            </div>
+            <div class="rightOfMenu" id="trasparentPage" ng-click="closeMenu()">
+            </div>
         </div>
         <script src="components/angular/angular.min.js"></script>
         <script src="components/angular-resource/angular-resource.min.js"></script>

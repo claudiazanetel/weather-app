@@ -76,8 +76,8 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 		    	});
 			},
 			function(error) { 
-				if($scope.$storage.cities.length > 0) {
-    				$scope.chooseCity($scope.$storage.cities[0]);
+				if(favouritesService.getCities().length > 0) {
+    				$scope.chooseCity(favouritesService.getCities()[0]);
   				} else {
   					console.log(error);
   				}
@@ -151,7 +151,14 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 	    };
 
 	    $scope.openMenu = function(){
-			document.getElementById("favouritesMenu").style.width = "50%";
+	    	if(screen.width > 600){
+	    		document.getElementById("favouritesMenu").style.width = "30%";
+				document.getElementById("trasparentPage").style.width = "70%";
+	    	}else{
+	    		document.getElementById("favouritesMenu").style.width = "80%";
+				document.getElementById("trasparentPage").style.width = "20%";
+	    	}
+
 	    };
 
 	    $scope.getStar = function(city){
@@ -182,10 +189,11 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 
 	    $scope.closeMenu = function(){
 			document.getElementById("favouritesMenu").style.width = "0px";
+			document.getElementById("trasparentPage").style.width = "0px";
+
 	    };
 
 	    $scope.loadCity = function(city){
-	    	console.log('changeCity:'+city);
 	    	$rootScope.$emit('changeCity', city);
 	    };
 
