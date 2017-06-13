@@ -7,43 +7,27 @@
         <link href="components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="components/weather-icons/css/weather-icons.min.css" rel="stylesheet">
         <link href="styles/mystyle.css" rel="stylesheet">
+        <link href="styles/slidemenu.css" rel="stylesheet">
     </head>
     <body>
         <div class="container-fluid page" ng-controller="weatherController">
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#favorites-menu" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                    </div>
-                    <div class="collapse navbar-collapse" id="favorites-menu">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li ng-click="addCityToFavorites()"><a><span class="glyphicon {{star}}"></a></li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="my_favorite">Favourites<span class="caret"></span></a>
-                                <ul class="dropdown-menu" id="listFavoriteCities">
-                                    <li ng-repeat="city in $storage.cities" ng-click="chooseCity(city)">
-                                        <a>{{city}}</a>
-                                        <span ng-click="addCityToFavorites(city)" class="glyphicon glyphicon glyphicon-trash">
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                        <a class="navbar-brand" href="#" ng-click="openMenu()">
+                            <img alt="Menu" src="images/toggle-menu.svg">
+                        </a>
                     </div>
                 </div>
             </nav>
             <div class="row chooseCity">
                 <div class="col-12-xs">
-                    <form class="navbar-form" name="searchForm" role="search" ng-submit="chooseCity()">
+                    <form class="form-inline" name="searchForm" role="search" ng-submit="chooseCity()">
                         <div class="input-group add-on">
-                          <input class="form-control" name="searchCity" type="text" ng-model="city" placeholder="Choose your city" required>
-                          <div class="input-group-btn">
-                            <button class="btn btn-default" type="submit" id="submit"><i class="glyphicon glyphicon-search" ng-disabled="searchForm.$invalid"></i></button>
-                          </div>
+                            <input class="form-control" name="searchCity" type="text" ng-model="city" placeholder="Choose your city" required>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit" id="submit"><i class="glyphicon glyphicon-search" ng-disabled="searchForm.$invalid"></i></button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -57,7 +41,8 @@
             <div class="row currentWeatherData">
                 <div class="col-12-xs" ng-show="currentWeatherData">
                     <div class="city">
-                        <h2> &nbsp; &nbsp; &nbsp; {{currentData.name}} &nbsp;<span ng-click="addCityToFavorites()" class="glyphicon {{star}}"></span></h2>
+                        <h2>{{currentData.name}}&nbsp;<span ng-click="addCityToFavorites(currentData.name)" class="glyphicon {{getStar(currentData.name)}}"></span></h2>
+                    </div>
                     <div>
                         <i class="wi wi-owm-{{currentData.weather[0].id}}" style="font-size: 60px;"></i><br>
                         <h4>{{currentData.weather[0].description}}</h4>
@@ -88,6 +73,20 @@
                     </li>
                 </ul>
                 </div>
+            </div>
+        </div>
+        <div class="container-fluid" ng-controller="favouritesController">
+            <div class="menu" id="favouritesMenu">
+                <h3>My Favourite cities<span class="glyphicon glyphicon-remove" ng-click="closeMenu()"></span></h3>  
+                <ul class="list-group" id="listFavoriteCities">
+                    <!--<li ng-click="addCityToFavorites()"><a><span class="glyphicon {{star}}"></a></li>-->
+                    <li class="list-group-item" ng-repeat="city in getFavouriteCities()" ng-click="loadCity(city); closeMenu()">
+                        <a >{{city}}</a>
+                        <span ng-click="removeCityFromFavoriteList(city)" class="glyphicon glyphicon glyphicon-trash">
+                    </li>
+                </ul>
+            </div>
+            <div class="rightOfMenu" id="trasparentPage" ng-click="closeMenu()">
             </div>
         </div>
         <script src="components/angular/angular.min.js"></script>

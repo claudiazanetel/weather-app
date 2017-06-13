@@ -19,7 +19,38 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 
 	}])
 
-	.controller('weatherController', ['$scope', 'fetchWeatherData', '$localStorage', function($scope, fetchWeatherData, $localStorage) {
+	.service('favouritesService',['$localStorage', function($localStorage){
+		this.storage = $localStorage.$default({
+        	"cities": []
+    	});
+
+		this.getCities = function() {
+			return this.storage.cities;
+		};
+
+		this.hasCity = function(city) {
+			index = this.storage.cities.indexOf(city);
+			if(index < 0){
+				return false;
+			}
+			return true;
+		};
+
+		this.addCity = function(city) {
+			if(!this.hasCity(city)){
+				this.storage.cities.push(city);
+			}
+		};
+
+		this.removeCity = function(city) {
+			if(this.hasCity(city)){
+				this.storage.cities.splice(index, 1);
+			}
+		};
+
+	}])
+
+	.controller('weatherController', ['$rootScope', '$scope', 'fetchWeatherData', 'favouritesService', function($rootScope, $scope, fetchWeatherData, favouritesService) {
 
 		$scope.currentWeatherData = false;
 		$scope.isDailyDataLoaded = false;
@@ -28,9 +59,6 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 		$scope.city = '';
 		$scope.isLoading = false;
 		$scope.isError = false;
-		$scope.$storage = $localStorage.$default({
-        	"cities": []
-    	});
 
 		navigator.geolocation.watchPosition(
 			function(location) {
@@ -41,7 +69,6 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 				fetchWeatherData.getWeatherByCoord().get({lat:$scope.lat, lon:$scope.lon})
 		    		.$promise.then(function(currentData) {
 		    			$scope.currentData = currentData;
-		    			setStar($scope.currentData.name);
 		      			getData($scope.currentData.name);
 		      			$scope.currentWeatherData = true;
 		      			$scope.isLoading = false;
@@ -49,8 +76,8 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 		    	});
 			},
 			function(error) { 
-				if($scope.$storage.cities.length > 0) {
-    				$scope.chooseCity($scope.$storage.cities[0]);
+				if(favouritesService.getCities().length > 0) {
+    				$scope.chooseCity(favouritesService.getCities()[0]);
   				} else {
   					console.log(error);
   				}
@@ -70,15 +97,12 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 	      		$scope.isLoading = false;
 	      		$scope.isError = false;
 	      		$scope.currentWeatherData = true;
-	      		setStar($scope.currentData.name);
-	      		getData($scope.currentData.name);
-
+	      		getData($scope.currentData.name);	      		
 	    	}).catch(function(e){
 	    		$scope.error = e;
 	    		$scope.isLoading = false;
 	      		$scope.isError = true;
 	    	});
-			
 	    	$scope.city = '';
 		};
 
@@ -118,24 +142,62 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 	    };
 
 	    $scope.addCityToFavorites = function(city){
-	    	$scope.favoriteCity = city || $scope.currentData.name;
-	    	//$scope.favoriteCity = $scope.currentData.name;
-	    	index = $scope.$storage.cities.indexOf($scope.favoriteCity)
-	    	if(index < 0) {
-				$scope.$storage.cities.push($scope.favoriteCity);
+	    	//$scope.favoriteCity = city || $scope.currentData.name;
+	    	if(favouritesService.hasCity(city)) {
+				favouritesService.removeCity(city);
 			} else {
-				$scope.$storage.cities.splice(index, 1);
+			 	favouritesService.addCity(city);
 			}
-			setStar($scope.favoriteCity);
+	    };
+
+	    $scope.openMenu = function(){
+	    	if(screen.width > 600){
+	    		document.getElementById("favouritesMenu").style.width = "30%";
+				document.getElementById("trasparentPage").style.width = "70%";
+	    	}else{
+	    		document.getElementById("favouritesMenu").style.width = "80%";
+				document.getElementById("trasparentPage").style.width = "20%";
+	    	}
 
 	    };
 
-	    setStar = function(city){
-	    	index = $scope.$storage.cities.indexOf(city);
-	    	if(index < 0) {
-				$scope.star = "glyphicon-star-empty";
+	    $scope.getStar = function(city){
+	    	if(favouritesService.hasCity(city)) {
+				return "glyphicon-star";
 			} else {
-				$scope.star = "glyphicon-star";
+			 	return "glyphicon-star-empty";
 			}
 	    };
+
+		$rootScope.$on('changeCity', function(event, city) {
+			if(city != $scope.currentData.name){
+				$scope.chooseCity(city);
+			}
+		});
+
 	}])
+
+	.controller('favouritesController', ['$rootScope', '$scope', 'favouritesService', function($rootScope, $scope, favouritesService) {
+
+	    $scope.getFavouriteCities = function() {
+	    	return favouritesService.getCities();
+	    };
+
+	    $scope.removeCityFromFavoriteList = function(city){
+	    	favouritesService.removeCity(city);
+	    };
+
+	    $scope.closeMenu = function(){
+			document.getElementById("favouritesMenu").style.width = "0px";
+			document.getElementById("trasparentPage").style.width = "0px";
+
+	    };
+
+	    $scope.loadCity = function(city){
+	    	$rootScope.$emit('changeCity', city);
+	    };
+
+	}])
+
+
+
