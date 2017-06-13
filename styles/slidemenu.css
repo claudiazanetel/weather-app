@@ -3,6 +3,10 @@
 	vertical-align: middle; 
 }
 
+.navbar-brand{
+	padding-top: 10px;
+}
+
 
 .menu {
     height: 100%; /* 100% Full-height */
