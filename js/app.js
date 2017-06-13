@@ -52,9 +52,7 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 
 	.controller('weatherController', ['$rootScope', '$scope', 'fetchWeatherData', 'favouritesService', function($rootScope, $scope, fetchWeatherData, favouritesService) {
 
-		$scope.currentWeatherData = false;
-		$scope.isDailyDataLoaded = false;
-		$scope.isHourlyDataLoaded = false;
+		$scope.isPageEmpty = true;
 		$scope.detailedWeatherData = [];
 		$scope.city = '';
 		$scope.isLoading = false;
@@ -65,13 +63,14 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 				$scope.lat = location.coords.latitude;
 				$scope.lon = location.coords.longitude;
 				$scope.isLoading = true;
+				$scope.isPageEmpty = true;
 
 				fetchWeatherData.getWeatherByCoord().get({lat:$scope.lat, lon:$scope.lon})
 		    		.$promise.then(function(currentData) {
 		    			$scope.currentData = currentData;
 		      			getData($scope.currentData.name);
-		      			$scope.currentWeatherData = true;
 		      			$scope.isLoading = false;
+		      			$scope.isPageEmpty = false;
 		      			
 		    	});
 			},
@@ -87,21 +86,20 @@ angular.module('weatherApp', ['ngResource', 'ngStorage', 'angular-google-analyti
 		$scope.chooseCity = function(city) {
 			$scope.isError = false;
 			$scope.isLoading = true;
-			$scope.currentWeatherData = false;
-			$scope.isDailyDataLoaded = false;
-			$scope.isHourlyDataLoaded = false;
+			$scope.isPageEmpty = true;
 			inputCity = city || $scope.city;
 			fetchWeatherData.getWeatherByCity().get({city:inputCity})
 	    	.$promise.then(function(currentData) {
 	    		$scope.currentData = currentData;					
 	      		$scope.isLoading = false;
 	      		$scope.isError = false;
-	      		$scope.currentWeatherData = true;
+	      		$scope.isPageEmpty = false;
 	      		getData($scope.currentData.name);	      		
 	    	}).catch(function(e){
 	    		$scope.error = e;
 	    		$scope.isLoading = false;
 	      		$scope.isError = true;
+	      		$scope.isPageEmpty = false;
 	    	});
 	    	$scope.city = '';
 		};

@@ -10,7 +10,10 @@
         <link href="styles/slidemenu.css" rel="stylesheet">
     </head>
     <body>
-        <div class="container-fluid page" ng-controller="weatherController">
+        <div class="loading" ng-show="isLoading" ng-controller="weatherController">
+            <img src="images/Loading_icon.gif"/>
+        </div>
+        <div class="container-fluid page" ng-controller="weatherController" ng-hide="isPageEmpty">
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
@@ -32,14 +35,12 @@
                     </form>
                 </div>
             </div>
-            <div class="loading" ng-show="isLoading">
-                <img src="images/Loading_icon.gif"/>
-            </div>
-            <div class="alert alert-danger" role="alert" ng-show="isError">
+            <div class="alert alert-danger alert-dismissable" role="alert" ng-show="isError">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
                 <p>Error: {{error.data.message}}</p>
             </div>
             <div class="row currentWeatherData">
-                <div class="col-12-xs" ng-show="currentWeatherData">
+                <div class="col-12-xs">
                     <div class="city">
                         <h2>{{currentData.name}}&nbsp;<span ng-click="addCityToFavorites(currentData.name)" class="glyphicon {{getStar(currentData.name)}}"></span></h2>
                     </div>
@@ -50,7 +51,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" ng-show="isDailyDataLoaded">
+            <div class="row">
                 <div class="col-12-xs nextDaysWeather" ng-repeat="item in dailyData.list.slice(0, 5)" ng-class="{selectedDay : selectedDay === item.dt}" ng-click="changeDay(item.dt)">
                     <span>{{item.dt * 1000 | date:'EEE':'GMT' }}</span><br><br> 
                     <i class="wi wi-owm-{{item.weather[0].id}}" style="font-size: 40px;"></i><br><br> 
@@ -59,7 +60,7 @@
 
                 </div>
             </div>
-            <div class="row" ng-show="isHourlyDataLoaded">
+            <div class="row">
                 <div class="col-12-xs nextHoursWeather">
                 <ul>
                     <li class="detailHeader">
