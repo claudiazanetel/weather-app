@@ -24,6 +24,7 @@ deploy:
     repo: claudiazanetel/weather-app
     branch: master
   skip_cleanup: true
+  local_dir: dist
 
 env:
   global:
