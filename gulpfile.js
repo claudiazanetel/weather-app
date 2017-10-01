@@ -17,7 +17,6 @@ gulp.task('default', ['bower']);
 gulp.task('bower', function() {
     bower('./components')
         .on("end", () => {
-            gulp.start('sass');
             gulp.start('useref');
             gulp.start('images');
             gulp.start('fonts-weather-icons');
@@ -52,7 +51,7 @@ gulp.task('watch', ['browserSync', 'sass', 'useref', 'images', 'fonts-weather-ic
     // Other watchers
 })
 
-gulp.task('useref', function(){
+gulp.task('useref', ['sass'], function(){
     return gulp.src('index.html')
       .pipe(useref())
       .pipe(gulpIf('*.js', uglify()))
