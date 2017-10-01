@@ -9,13 +9,20 @@ var cssnano = require('gulp-cssnano');
 var imagemin = require('gulp-imagemin');
 
 //Default task
-gulp.task('default', ['bower', 'sass', 'useref', 'images', 'fonts-weather-icons', 'fonts-bootstrap']); 
+gulp.task('default', ['bower']); 
 
 /*
 * downloads front-end dependencies
 */
 gulp.task('bower', function() {
-    return bower('./components')
+    bower('./components')
+        .on("end", () => {
+            gulp.start('sass');
+            gulp.start('useref');
+            gulp.start('images');
+            gulp.start('fonts-weather-icons');
+            gulp.start('fonts-bootstrap');
+        })
 });
 
 gulp.task('browserSync', function() {
