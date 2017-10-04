@@ -48,7 +48,7 @@
                             <h2>{{currentData.name}}&nbsp;<span ng-click="addCityToFavorites(currentData.name)" class="glyphicon {{getStar(currentData.name)}}"></span></h2>
                         </div>
                         <div>
-                            <i class="wi wi-owm-{{currentData.weather[0].id}}" style="font-size: 60px;"></i><br>
+                            <i class="wi wi-owm-{{currentData.weather[0].id}}" id="icon-current"></i><br>
                             <h4>{{currentData.weather[0].description}}</h4>
                             <h3>{{currentData.main.temp | number:0}}°C</h3>
                         </div>
@@ -57,7 +57,7 @@
                 <div class="row">
                     <div class="col-12-xs nextDaysWeather" ng-repeat="item in dailyData.list.slice(0, 5)" ng-class="{selectedDay : selectedDay === item.dt}" ng-click="changeDay(item.dt)">
                         <span>{{item.dt * 1000 | date:'EEE':'GMT' }}</span><br><br> 
-                        <i class="wi wi-owm-{{item.weather[0].id}}" style="font-size: 40px;"></i><br><br> 
+                        <i class="wi wi-owm-{{item.weather[0].id}}"  id="icon-nextDays"></i><br><br> 
                         <span style="color: #CC0000;">{{item.temp.max | number:0}} °C</span><br> 
                         <span style="color: #003366;">{{item.temp.min | number:0}} °C</span>
 
@@ -71,7 +71,7 @@
                         </li>
                         <li class="details" ng-repeat="item in getDaysDetails()" >
                            <p>{{item.dt*1000 | date:'HH:mm':'GMT'}}</p>
-                           <p><i class="wi wi-owm-{{item.weather[0].id}}" style="font-size: 30px;"></i></p>
+                           <p><i class="wi wi-owm-{{item.weather[0].id}}"  id="icon-detail"></i></p>
                            <p>{{item.weather[0].description}}</p>
                            <p>{{item.main.temp | number:0}} °C</p>
                         </li>
