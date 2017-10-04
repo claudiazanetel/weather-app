@@ -1,3 +1,15 @@
+//import
+
+//main settings
+$main-background-color: white;
+$select-box-background-color: #FCFCFC;
+
+$size-icon-current: 60px;
+$size-icon-nextDays: 40px;
+$size-icon-detail: 30px;
+
+$text-align-page: center;
+
 h4{
 	margin-top: 15px;
 }
@@ -22,7 +34,7 @@ span{
 }
 
 .form-inline{
-	text-align: center;
+	text-align: $text-align-page;
 	margin-left: 5%;
 	margin-right: 5%;
 }
@@ -31,7 +43,7 @@ span{
 	position:absolute; 
 	width:100%; 
 	height:500px;
-	text-align: center;
+	text-align: $text-align-page;
 }
 
 .loading img{
@@ -45,18 +57,17 @@ span{
 }
 
 .city{
-	text-align: center;
 	font-size: 30px;
 }
 
 .currentWeatherData{
-	text-align: center;
+	text-align: $text-align-page;
 }
 
 .nextDaysWeather{
 	display:inline-block;
 	width: 20%;
-	text-align: center;
+	text-align: $text-align-page;
 	padding-bottom: 10px;
 	border-bottom: 2px #EEEEEE solid;
 	border-top: 2px #EEEEEE solid;
@@ -68,11 +79,11 @@ span{
 	border-top: 2px #A9A9A9 solid;
 	border-bottom: 2px #FCFCFC solid;
 	opacity: 1;
-	background-color: #FCFCFC;
+	background-color: $select-box-background-color;
 }
 
 .nextHoursWeather{
-	background-color: #FCFCFC;
+	background-color: $select-box-background-color;
 }
 
 .nextHoursWeather ul{
@@ -83,7 +94,7 @@ span{
 	list-style-type: none;
 	font-weight: bold;
 	width: 100%;
-	text-align: center;
+	text-align: $text-align-page;
 	padding:15px;
 	padding-bottom: 10px;
 }
@@ -97,9 +108,24 @@ span{
 .nextHoursWeather p{
 	display:inline-block;
 	width:24%;
-	text-align: center;
+	text-align: $text-align-page;
 	margin-right: 0;
 }
+
+//icons
+
+#icon-current{
+	font-size: $size-icon-current;
+}
+
+#icon-nextDays{
+	font-size: $size-icon-nextDays;
+}
+
+#icon-detail{
+	font-size: $size-icon-detail;
+}
+
 
 #listFavoriteCities{
 	min-width: 180px;
