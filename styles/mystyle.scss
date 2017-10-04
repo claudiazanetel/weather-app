@@ -1,3 +1,10 @@
+//import
+
+//main settings
+$main-background-color: white;
+$select-box-background-color: #FCFCFC;
+//$select-box-background-color: #EDF3F8;
+
 h4{
 	margin-top: 15px;
 }
@@ -68,11 +75,11 @@ span{
 	border-top: 2px #A9A9A9 solid;
 	border-bottom: 2px #FCFCFC solid;
 	opacity: 1;
-	background-color: #FCFCFC;
+	background-color: $select-box-background-color;
 }
 
 .nextHoursWeather{
-	background-color: #FCFCFC;
+	background-color: $select-box-background-color;
 }
 
 .nextHoursWeather ul{

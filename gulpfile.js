@@ -33,7 +33,7 @@ gulp.task('browserSync', function() {
 })
 
 gulp.task('sass', function() {
-    return gulp.src('styles/*.scss') // Gets all files ending with .scss in app/scss
+    return gulp.src('styles/*.scss')
       .pipe(sass())
       .pipe(gulp.dest('styles'))
       .pipe(browserSync.reload({
@@ -42,8 +42,8 @@ gulp.task('sass', function() {
 });
 
 gulp.task('watch', ['browserSync', 'sass', 'useref', 'images', 'fonts-weather-icons', 'fonts-bootstrap'], function (){
-    gulp.watch('styles/*.scss', ['sass', 'useref', 'browserSync']); 
-    gulp.watch('*.html', ['useref', 'browserSync']); 
+    gulp.watch('styles/*.scss', ['sass', 'useref']); 
+    gulp.watch('dist/*.html', browserSync.reload); 
     gulp.watch('js/*.js', ['useref', 'browserSync']);
     gulp.watch('images/*', ['images', 'browserSync']);
     gulp.watch('components/weather-icons/**/*', ['fonts-weather-icons', 'browserSync']);
